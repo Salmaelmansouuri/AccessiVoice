@@ -1,0 +1,157 @@
+texte,intention
+Je cherche un service,rechercher_service
+Quels sont les services disponibles ?,rechercher_service
+Je veux trouver un service,rechercher_service
+Peux-tu rechercher un service ?,rechercher_service
+Affiche les services proposés,rechercher_service
+Quels services proposez-vous ?,rechercher_service
+Je recherche une aide administrative,rechercher_service
+Je souhaite accéder à la liste des services,rechercher_service
+Montre-moi les services disponibles,rechercher_service
+Trouver un service près de moi,rechercher_service
+Y a-t-il des services à Casablanca ?,rechercher_service
+Quels services sont disponibles à Rabat ?,rechercher_service
+Je cherche des services à Casablanca,rechercher_service
+Je veux rechercher un service à Marrakech,rechercher_service
+Où trouver des services numériques ?,rechercher_service
+Je souhaite voir les offres de services,rechercher_service
+Donne-moi le catalogue des services,rechercher_service
+Je cherche une assistance informatique,rechercher_service
+Présente les services accessibles,rechercher_service
+Quels types de services peut-on utiliser ?,rechercher_service
+Je veux connaître les services actifs,rechercher_service
+Liste les services ouverts,rechercher_service
+Recherche les services disponibles dans ma ville,rechercher_service
+Je voudrais trouver un accompagnement numérique,rechercher_service
+Je veux consulter la liste des prestations,rechercher_service
+Je souhaite chercher un service public,rechercher_service
+Je veux consulter mes informations,consulter_information
+Montre mes informations,consulter_information
+Affiche mes informations personnelles,consulter_information
+Je voudrais voir mon profil,consulter_information
+Donne-moi mes coordonnées,consulter_information
+Quels renseignements avez-vous sur moi ?,consulter_information
+Je souhaite consulter mon compte,consulter_information
+Montre-moi mes données,consulter_information
+Je veux accéder à mon profil,consulter_information
+Comment voir mes informations ?,consulter_information
+Je veux voir mon nom et mon email,consulter_information
+Consulter mes renseignements,consulter_information
+Peux-tu afficher mon profil ?,consulter_information
+Je souhaite connaître mes données personnelles,consulter_information
+Afficher les détails de mon compte,consulter_information
+Je veux lire mes informations personnelles,consulter_information
+Ouvre ma fiche utilisateur,consulter_information
+Quelles informations sont enregistrées ?,consulter_information
+Je veux vérifier mes coordonnées,consulter_information
+Je désire consulter mon espace personnel,consulter_information
+Accéder à mes informations,consulter_information
+J’aimerais voir les détails de mon profil,consulter_information
+Montre mon prénom et mon nom,consulter_information
+Je veux consulter la fiche utilisateur,consulter_information
+Pourrais-tu afficher les informations du compte ?,consulter_information
+Je veux voir les données de mon profil,consulter_information
+Je veux effectuer une demande,effectuer_action
+Je souhaite créer une demande,effectuer_action
+Peux-tu enregistrer ma demande ?,effectuer_action
+Je voudrais envoyer une demande,effectuer_action
+Déposer une demande,effectuer_action
+Fais une demande pour moi,effectuer_action
+Je souhaite soumettre une requête,effectuer_action
+Créer une nouvelle requête,effectuer_action
+Enregistrer une demande maintenant,effectuer_action
+Je veux réaliser une démarche,effectuer_action
+Je désire déposer un dossier,effectuer_action
+Lance une demande de service,effectuer_action
+Je souhaite faire une démarche administrative,effectuer_action
+Peux-tu soumettre ma demande ?,effectuer_action
+Ouvre une nouvelle demande,effectuer_action
+Je veux initier une procédure,effectuer_action
+Ajoute une demande,effectuer_action
+Je voudrais transmettre une requête,effectuer_action
+Effectuer une nouvelle démarche,effectuer_action
+Je veux démarrer une demande,effectuer_action
+Fais une nouvelle demande s’il te plaît,effectuer_action
+J’aimerais déposer une requête,effectuer_action
+Je voudrais lancer une procédure,effectuer_action
+Créer mon dossier de demande,effectuer_action
+Je souhaite enregistrer une requête,effectuer_action
+Est-ce possible de déposer une demande ?,effectuer_action
+Je veux modifier mes informations,modifier_information
+Changer mon nom,modifier_information
+Corriger mon adresse email,modifier_information
+Je souhaite mettre à jour mon profil,modifier_information
+Peux-tu modifier mes coordonnées ?,modifier_information
+Je voudrais changer mon prénom,modifier_information
+Mets à jour les informations de mon compte,modifier_information
+Je souhaite éditer mon profil,modifier_information
+Modifier mes données personnelles,modifier_information
+Il faut corriger mon profil,modifier_information
+Peux-tu changer mes renseignements ?,modifier_information
+Je veux remplacer mon ancien email,modifier_information
+J’aimerais mettre à jour mes coordonnées,modifier_information
+Je souhaite rectifier mes informations,modifier_information
+Édite ma fiche utilisateur,modifier_information
+Je veux actualiser les données de mon compte,modifier_information
+Change l’adresse de mon compte,modifier_information
+Je voudrais modifier ma fiche,modifier_information
+Je désire corriger mes coordonnées,modifier_information
+Comment mettre à jour mon profil ?,modifier_information
+Je veux éditer mes informations,modifier_information
+Actualiser mon profil utilisateur,modifier_information
+Remplacer les informations incorrectes,modifier_information
+Changer les détails de mon compte,modifier_information
+Je souhaite corriger une erreur dans mon profil,modifier_information
+Peux-tu rectifier mon email ?,modifier_information
+Comment utiliser cette application ?,aide
+J’ai besoin d’aide,aide
+Explique comment cela marche,aide
+Je ne comprends pas,aide
+Aide-moi à utiliser le service,aide
+Montre le mode d’emploi,aide
+Quelles sont les commandes possibles ?,aide
+Peux-tu me guider ?,aide
+Je voudrais des instructions,aide
+Je cherche de l’aide pour commencer,aide
+Que peut faire cette application ?,aide
+Comment ça fonctionne ?,aide
+"Je suis perdu, peux-tu m’aider ?",aide
+Explique les fonctionnalités,aide
+Je voudrais le guide utilisateur,aide
+J’ai besoin d’assistance,aide
+Donne-moi des conseils d’utilisation,aide
+Comment parler au système ?,aide
+Je ne sais pas quoi demander,aide
+Je souhaite de l’aide sur le fonctionnement,aide
+Peux-tu expliquer les étapes ?,aide
+Quels exemples de commandes puis-je dire ?,aide
+Je voudrais connaître les possibilités,aide
+Affiche la rubrique aide,aide
+Indique-moi comment démarrer,aide
+Quelles options sont proposées ?,aide
+Je veux quitter,quitter
+Ferme cette application,quitter
+Au revoir,quitter
+Je souhaite sortir,quitter
+Arrête la session,quitter
+Terminer la conversation,quitter
+Je voudrais me déconnecter,quitter
+"C’est fini, je pars",quitter
+Je veux arrêter ici,quitter
+Quitter le programme,quitter
+Clôture cette session,quitter
+Je n’ai plus besoin de rien,quitter
+Je souhaite terminer,quitter
+Peux-tu fermer le service ?,quitter
+On arrête maintenant,quitter
+"Merci, au revoir",quitter
+Je veux mettre fin à cet échange,quitter
+"Stop, je quitte",quitter
+Je voudrais sortir du système,quitter
+Fermer la fenêtre,quitter
+Fin de la conversation,quitter
+Je veux terminer cet échange,quitter
+Il faut arrêter maintenant,quitter
+Je m’en vais,quitter
+"Bonne journée, au revoir",quitter
+Termine notre session,quitter

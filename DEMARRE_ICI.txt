@@ -1,0 +1,23 @@
+ACCESSIVOICE - REPARATION VOCALE
+================================
+1. Ferme les anciens PowerShell AccessiVoice avec Ctrl+C.
+2. Decompresse cette archive sur le Bureau. Ne la lance pas dans le ZIP.
+3. Ouvre AccessiVoice_FINAL_CORRIGE.
+4. Double-clique sur LANCER_ACCESSIVOICE.bat.
+5. Garde la fenetre noire ouverte. Une NOUVELLE page s'ouvre automatiquement.
+6. Dis une phrase courte au microphone puis clique sur Transcrire et executer.
+
+La premiere installation et le telechargement de Whisper tiny necessitent Internet.
+
+CE QUE CETTE VERSION CORRIGE :
+- Environnement Python independant des anciens projets : aucun dossier .venv partage.
+- Les deux serveurs se lancent ensemble, sur des ports disponibles.
+- Les fichiers WAV du microphone sont decodes directement (sans PyAV).
+- PyAV 18.1.0 est egalement epingle pour les autres formats audio.
+- Erreurs detaillees dans logs\api.log et dans l'interface.
+
+Si la voix echoue encore, NE PAS reinstaller 10 fois : recuperer les dernieres lignes
+ du fichier logs\api.log et les transmettre pour diagnostic exact.
+
+Si le test echoue encore : double-cliquer sur DIAGNOSTIC_ACCESSIVOICE.bat
+puis envoyer le fichier DIAGNOSTIC.txt (sans audio personnel).

@@ -1,0 +1,4 @@
+-r requirements.txt
+# Versions compatibles PyAV 19 / faster-whisper (correctif du decodage audio).
+faster-whisper==1.2.1
+av==18.1.0

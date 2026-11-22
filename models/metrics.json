@@ -1,0 +1,69 @@
+{
+  "total_phrases": 156,
+  "train_phrases": 117,
+  "test_phrases": 39,
+  "accuracy": 0.7436,
+  "precision_macro": 0.7325,
+  "recall_macro": 0.746,
+  "f1_macro": 0.724,
+  "labels": [
+    "aide",
+    "consulter_information",
+    "effectuer_action",
+    "modifier_information",
+    "quitter",
+    "rechercher_service"
+  ],
+  "confusion_matrix": [
+    [
+      3,
+      0,
+      1,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      5,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      7,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      4,
+      0,
+      2,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      6,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      6
+    ]
+  ],
+  "evaluation_method": "hold-out stratifié 25 %, random_state=42; modèle final réentraîné sur tout le dataset",
+  "limitations": "petit jeu de phrases rédigées pour une démonstration; pas de test sur utilisateurs réels"
+}

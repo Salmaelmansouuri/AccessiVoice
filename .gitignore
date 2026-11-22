@@ -1,0 +1,27 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.streamlit/secrets.toml
+.env
+*.db
+*.sqlite3
+models/*.joblib
+models/*.pkl
+.DS_Store
+logs/
+
+# Sauvegardes des anciennes versions
+sauvegarde_avant_v*/
+
+# Autres bases de données et journaux
+*.sqlite
+*.db-wal
+*.db-shm
+*.sqlite3-wal
+*.sqlite3-shm
+*.log
+
+# Configurations locales
+.env.*
+!.env.example
