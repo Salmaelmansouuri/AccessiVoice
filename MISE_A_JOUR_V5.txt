@@ -1,3 +1,0 @@
-AccessiVoice V5 installee : tableau de bord, navigation, accessibilite.
-Sauvegarde des fichiers precedents : C:\Users\salma\OneDrive\Bureau\AccessiVoice_FINAL_CORRIGE\sauvegarde_avant_v5_30841
-Aucune reinstallation des dependances n'a ete lancee.

@@ -1,3 +1,0 @@
-Mise a jour V2 installee : variantes Casa Blanca -> Casablanca
-Ancienne version sauvegardee dans sauvegarde_avant_v2.
-Testez : Quels services sont disponibles a Casa Blanca ?

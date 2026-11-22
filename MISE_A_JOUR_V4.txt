@@ -1,2 +1,0 @@
-AccessiVoice V4 installee : lecteur vocal et options d'accessibilite.
-Sauvegarde des anciens fichiers : C:\Users\salma\OneDrive\Bureau\AccessiVoice_FINAL_CORRIGE\sauvegarde_avant_v4_28891

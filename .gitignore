@@ -25,3 +25,7 @@ sauvegarde_avant_v*/
 # Configurations locales
 .env.*
 !.env.example
+
+# Anciens documents de mise à jour
+AMELIORATIONS_V*.md
+MISE_A_JOUR_V*.txt
