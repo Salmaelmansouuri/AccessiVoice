@@ -1,4 +1,4 @@
-"""AccessiVoice  : tableau de bord, navigation accessible, voix, profil et demandes fictives.
+"""AccessiVoice : tableau de bord, navigation accessible, voix, profil et demandes fictives.
 
 Aucune API ou schema de base n'est change. Les commandes vocales restent locales et
 les operations qui ecrivent en base necessitent toujours une confirmation explicite.
@@ -409,5 +409,5 @@ elif page == PAGES[6]:
 - Utilisez un navigateur avec une voix française installée pour une meilleure lecture.
 - Le résultat vocal et les services sont fictifs ; aucune accessibilité certifiée n’est revendiquée.''')
 
-st.markdown('<div class="av-footer">AccessiVoice V5 · Prototype pédagogique local · Données fictives · '
+st.markdown('<div class="av-footer">AccessiVoice · Prototype pédagogique local · Données fictives · '
             'Voix, NLP, services et actions avec confirmation</div>', unsafe_allow_html=True)

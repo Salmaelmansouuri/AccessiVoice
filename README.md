@@ -1,180 +1,189 @@
-# 🎙 AccessiVoice
+# 🎙️ AccessiVoice
 
-**Prototype pédagogique : accéder à un service numérique fictif en français, par la voix ou le texte.**
+**Assistant vocal intelligent pour faciliter l’accès aux services numériques — prototype pédagogique local.**
 
-## Nouveauté V5 : tableau de bord et navigation simple
+AccessiVoice permet de formuler des demandes en français, **à la voix ou au clavier**, d’identifier leur intention et de consulter des services de démonstration. L'application peut également lire ses réponses à haute voix, enregistrer une demande fictive après confirmation et proposer un affichage plus accessible.
 
-Cette version propose un tableau de bord, un accès direct aux fonctionnalités,
-une rubrique pour chaque parcours (Assistant, Services, Demandes, Profil,
-Historique, Accessibilité) et des réglages de contraste et de typographie
-persistant pendant la session. La commande vocale et la lecture à haute voix
-sont conservées. **La base SQLite, le modèle Whisper et le classifieur NLP
-ne sont pas modifiés par la mise à jour V5.**
+> **Démonstration uniquement.** Les services et les demandes sont fictifs : AccessiVoice n’est pas relié à un portail administratif réel. Ne saisissez pas d’informations personnelles réelles.
 
-Voir [`AMELIORATIONS_V5.md`](AMELIORATIONS_V5.md) pour l'installation et les tests.
+## Fonctionnalités
 
-## Nouveauté V3 : actions concrètes, sans services réels
-
-Le prototype permet maintenant de **consulter et modifier un profil fictif** et de **créer puis retrouver des demandes fictives** sur les services disponibles. Les commandes vocales ou écrites reconnaissent l'intention et invitent à utiliser le formulaire concerné ; **une confirmation par bouton est nécessaire pour enregistrer une demande**. Le moteur NLP ne déclenche plus automatiquement une écriture quand l'utilisateur dit « je veux effectuer une demande ».
-
-La migration vers V3 conserve la base SQLite V2 et ajoute une colonne optionnelle à la table `demandes`. Aucun modèle Whisper n'est à réinstaller. Voir `AMELIORATIONS_V3.md`.
-
-## Nouveauté V2 : filtrage des villes dictées
-
-Les variantes entendues par Whisper, dont **« Casa Blanca »**, **« Casa-Blanca »** et **« Casa »**, sont reconnues comme **Casablanca**. Une recherche de services à Casablanca ne renvoie plus les services des autres villes. L’interface indique aussi l’intention et la ville détectées après une commande vocale. Voir `AMELIORATIONS_V2.md`.
-
-## Fonctionnement
-
-`Micro / champ texte → Speech-to-Text (optionnel) → TF-IDF + régression logistique → intention + ville → moteur de traitement → SQLite → réponse`
-
-L'application utilise 6 intentions (`rechercher_service`, `consulter_information`, `effectuer_action`, `modifier_information`, `aide`, `quitter`), un dataset CSV illustratif, une API FastAPI et une interface Streamlit. La reconnaissance audio repose sur **faster-whisper en option**. Les services, profils et demandes sont **entièrement fictifs**.
-
-## Démarrage automatique sur Windows (recommandé)
-
-**Double-cliquer sur `LANCER_ACCESSIVOICE.bat`** depuis un dossier extrait sur le Bureau. Le script crée un environnement Python **indépendant dans son propre dossier** (sans mélanger les anciennes installations), installe les dépendances manquantes si nécessaire, démarre l'API et Streamlit ensemble, choisit des ports libres et ouvre le navigateur automatiquement. **Garder la fenêtre noire ouverte** pendant l'utilisation ; `Ctrl+C` l'arrête proprement.
-
-Cette méthode évite l'erreur `HTTPConnectionPool(... port=8000): Connection refused`, causée par une interface Streamlit ouverte sans API en cours d'exécution. L'API peut s'ouvrir sur un autre port si le port 8000 est occupé, grâce à la variable d'environnement `ACCESSIVOICE_API_URL` propagée automatiquement au client.
-
-**Correction principale de cette version :** le WAV produit par le microphone de Streamlit est décodé en Python en PCM 16 kHz mono, puis envoyé à Whisper sous forme de tableau NumPy. Cela contourne entièrement le bug `metadata_errors` de PyAV 19 pour la voix enregistrée dans l'interface. Pour les autres formats audio, PyAV 18.1.0 reste verrouillé.
-
-Si la reconnaissance vocale échoue, le message d'erreur détaillé est affiché par l'interface et dans `logs/api.log`. Le premier essai peut nécessiter le téléchargement du modèle `tiny` et Internet. La version de PyAV est bloquée à `18.1.0` pour éviter l’erreur `open() got an unexpected keyword argument metadata_errors` due à une incompatibilité avec PyAV 19. Le mode texte fonctionne même si la fonctionnalité vocale est indisponible.
-
-## Prérequis
-
-Python 3.11 ou 3.12 (recommandé : 3.12), connexion Internet pour l'installation et le premier téléchargement du modèle vocal, micro fonctionnel pour le mode voix.
-
-### 1. Installation (PowerShell Windows)
-
-```powershell
-cd AccessiVoice
-py -3.12 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-Sur Linux/macOS : `python3 -m venv .venv && source .venv/bin/activate`.
-
-### 2. Entraînement reproductible
-
-```powershell
-python -m scripts.train
-```
-
-Le script crée `models/intent_model.joblib` et `models/metrics.json` avec les résultats **réellement mesurés** sur un split stratifié (25 % test). Ces fichiers sont générés localement, pas nécessaires dans le dépôt Git.
-
-### 3. Démarrer l'API (terminal n°1)
-
-```powershell
-uvicorn app.main:app --reload
-```
-
-Ouvrir la documentation interactive : http://127.0.0.1:8000/docs ; santé : http://127.0.0.1:8000/health.
-
-### 4. Démarrer l'interface (terminal n°2)
-
-```powershell
-.\.venv\Scripts\Activate.ps1
-streamlit run app/interface.py
-```
-
-Ouvrir l'adresse locale affichée par Streamlit (en général http://localhost:8501).
-
-### 5. Activer le mode voix (facultatif)
-
-```powershell
-pip install -r requirements-voice.txt
-```
-
-Si une installation précédente utilisait PyAV 19 et que tu obtiens l’erreur `metadata_errors`, le lanceur Windows corrige automatiquement cette incompatibilité, même si `faster-whisper` est déjà présent. Pour une correction manuelle sur le Python du projet : `python -m pip install "av==18.1.0"`, puis redémarrer FastAPI et Streamlit.
-
-Le premier appel audio télécharge le petit modèle Whisper `tiny` (variable `ACCESSIVOICE_WHISPER_MODEL=base` pour plus de précision). Pour éviter de transmettre des enregistrements à un service externe, la transcription est réalisée **localement** après téléchargement. Les fichiers temporaires sont supprimés après usage. La fonctionnalité dépend des permissions microphone et des bibliothèques audio sur la machine ; elle doit être validée lors de la démonstration finale.
-
-## API
-
-| Route | Fonction |
+| Module | Fonction |
 |---|---|
-| `GET /health` | Statut de l'API |
-| `GET /services?ville=Casablanca` | Liste des services fictifs disponibles |
-| `POST /predict-intent` | Classe une phrase (`{"texte":"Quels services proposez-vous ?"}`) |
-| `POST /execute` | Analyse la demande, recherche les services et propose les actions explicites |
-| `POST /voice` | Audio vers texte puis action (option Whisper) |
-| `GET /interactions` | Historique des commandes de démonstration |
-| `GET /profil-demo` | Consulter le profil fictif |
-| `PATCH /profil-demo` | Modifier le profil fictif |
-| `GET /demandes` | Liste des demandes fictives enregistrées |
-| `POST /demandes` | Enregistrer une demande fictive pour `service_id` après confirmation de l’utilisateur |
+| Assistant vocal | Enregistrement au microphone, transcription locale avec `faster-whisper` et traitement de la demande |
+| Assistant texte | Saisie d’une demande, classification de l’intention, réponse affichée |
+| Recherche de services | Recherche et filtrage géographique, notamment « Casa Blanca » → Casablanca |
+| Demandes | Sélection d’un service puis **confirmation explicite** avant enregistrement dans SQLite |
+| Profil fictif | Consultation et modification d’un profil de démonstration |
+| Réponse parlée | Lecture et arrêt de la réponse via la synthèse vocale du navigateur |
+| Tableau de bord | Accès aux rubriques, indicateurs des éléments récents et raccourcis |
+| Accessibilité | Texte agrandi, contraste renforcé, navigation clavier et vitesse de lecture ajustable |
+| Historique | Consultation des interactions et des demandes fictives |
 
-Exemple :
+## Architecture
+
+```text
+Utilisateur (voix / clavier)
+          │
+          ▼
+Interface Streamlit
+          │
+          ├── Voix → Whisper local (audio → texte)
+          │
+          ▼
+API FastAPI
+          │
+          ├── NLP : TF-IDF (n-grammes de caractères) + régression logistique
+          ├── Identification de l'intention et de la ville
+          └── Routage des fonctionnalités
+                       │
+                       ▼
+              Base SQLite fictive
+                       │
+                       ▼
+              Réponse textuelle
+                       │
+                       └── Lecture vocale (Web Speech API du navigateur)
+```
+
+Le système traite **six intentions** : `rechercher_service`, `consulter_information`, `effectuer_action`, `modifier_information`, `aide` et `quitter`. Les actions d’écriture exigent une validation par l'utilisateur dans l'interface.
+
+## Technologies
+
+- **Python 3.12**, FastAPI, Uvicorn, Streamlit et Requests
+- **scikit-learn**, TF-IDF, régression logistique et Joblib pour la classification
+- **faster-whisper** pour la reconnaissance vocale locale (facultative)
+- **SQLite** pour les services, le profil et les demandes fictives
+- **Web Speech API** pour la lecture de la réponse dans le navigateur
+- **Pytest** pour les vérifications automatisées
+- Docker Compose pour l’exécution de l’API seule (optionnel)
+
+## Démarrer l’application sur Windows
+
+**Prérequis :** Python 3.11 ou 3.12 (3.12 recommandé), navigateur récent, connexion Internet lors de la première installation et du premier téléchargement du modèle vocal, microphone pour la saisie vocale.
+
+1. Téléchargez ou clonez le dépôt.
+2. Ouvrez le dossier du projet sur Windows.
+3. Double-cliquez sur **`LANCER_ACCESSIVOICE.bat`**.
+4. Laissez la fenêtre de lancement ouverte et utilisez l’adresse locale affichée (en général `http://127.0.0.1:8501`).
+5. Pour arrêter les serveurs, utilisez `Ctrl+C` dans la fenêtre de lancement.
+
+Le lanceur prépare un environnement virtuel, installe les dépendances requises, entraîne le modèle de classification si nécessaire, sélectionne des ports libres et démarre l'API ainsi que l'interface. Le premier démarrage peut être plus long en raison de l'installation initiale.
+
+### Installation manuelle
+
+Dans PowerShell, depuis le dossier du projet :
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m scripts.train
+```
+
+Lancer l'API dans un premier terminal :
+
+```powershell
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --reload
+```
+
+Puis l'interface dans un deuxième terminal :
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run app/interface.py
+```
+
+Pour activer le mode vocal si vous utilisez l'installation manuelle :
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-voice.txt
+```
+
+`requirements-voice.txt` fixe notamment la version de PyAV compatible avec la configuration audio utilisée. Le modèle Whisper est téléchargé au premier usage de la transcription puis exécuté localement. La reconnaissance et la synthèse vocales dépendent aussi du microphone, du navigateur et des voix système disponibles.
+
+## Utilisation et démonstration
+
+Essayez les commandes suivantes dans la rubrique **Assistant vocal** :
+
+- « Quels services sont disponibles à Casa Blanca ? »
+- « Je veux consulter mes informations. »
+- « Je veux modifier mon profil. »
+- « Je veux effectuer une demande. »
+- « Comment utiliser cette application ? »
+
+Pour les demandes, ouvrez la rubrique **Demandes**, choisissez un service, puis cliquez sur **Confirmer la demande fictive**. La demande apparaît ensuite dans l’historique. Pour une réponse sonore, cliquez sur **Lire la réponse** après l'affichage du résultat.
+
+## Évaluation du modèle NLP
+
+Le dataset `data/intents.csv` comporte **156 phrases pédagogiques** réparties en six intentions. Le protocole d'évaluation utilise un découpage stratifié avec 25 % des phrases réservées au test.
+
+| Mesure | Résultat |
+|---|---:|
+| Phrases d’entraînement | 117 |
+| Phrases de test | 39 |
+| Accuracy | 74,36 % |
+| Précision macro | 73,25 % |
+| Rappel macro | 74,60 % |
+| F1 macro | 72,40 % |
+
+Les résultats, la matrice de confusion et les graphiques sont accessibles dans `models/metrics.json` et `docs/`. **Attention :** ces scores mesurent la classification sur un petit dataset construit pour la démonstration ; ils ne constituent pas une évaluation sur des utilisateurs réels.
+
+Le modèle final est réentraîné sur la totalité du dataset et enregistré localement dans `models/intent_model.joblib` (exclu de Git).
+
+## Tests
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+```
+
+Les tests couvrent notamment l'API, le filtrage des villes, la gestion du profil et des demandes, les fonctions vocales et la navigation. **Ils ne remplacent pas une vérification manuelle du microphone et de la lecture audio.**
+
+## API (documentation interactive)
+
+Avec l'API démarrée, consultez `http://127.0.0.1:8000/docs` si le port 8000 est libre.
+
+| Méthode | Route | Rôle |
+|---|---|---|
+| GET | `/health` | État de l'API |
+| GET | `/services` | Liste et filtre de services (`?ville=Casablanca`) |
+| POST | `/predict-intent` | Classification de texte |
+| POST | `/execute` | Traitement et réponse à une commande |
+| POST | `/voice` | Transcription audio et traitement |
+| GET | `/interactions` | Historique des interactions |
+| GET / PATCH | `/profil-demo` | Consultation / modification du profil fictif |
+| GET / POST | `/demandes` | Consultation / création de demandes fictives |
+
+Exemple de commande PowerShell :
 
 ```powershell
 Invoke-RestMethod -Uri http://127.0.0.1:8000/execute -Method Post -ContentType 'application/json' -Body '{"texte":"Quels services sont disponibles à Casablanca ?"}'
 ```
 
-## Tests
-
-```powershell
-python -m pytest -q
-```
-
-Tests : migration V2, profil fictif, confirmation des demandes, santé API, liste et filtre des services, classification, exécution, historique, validation des entrées et formats audio invalides. Les tests ne remplacent **pas** une validation de reconnaissance vocale avec un vrai microphone.
-
-## Données et IA
-
-- `data/intents.csv` : phrases françaises d'apprentissage, créées pour ce prototype, et leurs intentions.
-- `scripts/train.py` : pipeline TF-IDF de n-grammes de caractères + régression logistique, découpage stratifié, accuracy, précision macro, rappel macro, F1 macro et matrice de confusion.
-- `app/engine.py` : repérage d'une ville parmi Casablanca / Rabat / Marrakech et routage vers les actions de démonstration.
-- Base SQLite créée automatiquement au démarrage (services et profil fictifs).
-
-**Limites :** dataset petit et artificiel ; reconnaissance des villes limitée ; faux profil sans authentification ; pas de connexion à un service réel ; modèle vocal non évalué sur un jeu audio représentatif ; aucune promesse d'accessibilité certifiée. Ce prototype ne doit **pas** être exposé en production en l'état.
-
-## Déploiement Docker (API uniquement)
-
-```powershell
-docker compose up --build
-```
-
-Attention : le conteneur n'active pas `faster-whisper` ; l'interface Streamlit se lance séparément dans l'environnement Python local. Le port API est limité à la machine locale dans `compose.yaml`.
-
-## Structure
+## Arborescence
 
 ```text
 AccessiVoice/
-├─ app/                 # API FastAPI, classifieur, routage, Streamlit, SQLite
-├─ data/intents.csv     # Dataset pédagogique français
-├─ models/              # Modèle et métriques générés localement
-├─ scripts/train.py     # Entraînement / évaluation
-├─ scripts/launch.py    # Démarre et surveille les deux serveurs
-├─ LANCER_ACCESSIVOICE.bat # Double clic Windows
-├─ DEMARRE_ICI.txt      # Instructions de lancement
-├─ tests/               # Tests automatisés Pytest
-├─ docs/                # Notes de soutenance et vérifications
-├─ Dockerfile
-├─ compose.yaml
-├─ requirements.txt
-├─ requirements-voice.txt
-└─ README.md
+├── app/                    # API, moteur NLP, interface et SQLite
+├── data/intents.csv        # Données d'entraînement illustratives
+├── docs/                   # Documentation et graphiques d'évaluation
+├── models/                 # Métriques publiées ; modèle entraîné ignoré par Git
+├── scripts/                # Entraînement et lanceur des deux serveurs
+├── tests/                  # Tests automatisés
+├── .gitignore
+├── LANCER_ACCESSIVOICE.bat
+├── DIAGNOSTIC_ACCESSIVOICE.bat
+├── Dockerfile
+├── compose.yaml
+├── requirements.txt
+├── requirements-voice.txt
+└── README.md
 ```
 
-## Publication GitHub
+## Limites et confidentialité
 
-```powershell
-git init
-git add .
-git commit -m "Prototype initial AccessiVoice"
-git branch -M main
-git remote add origin https://github.com/VOTRE-IDENTIFIANT/AccessiVoice.git
-git push -u origin main
-```
+Il s’agit d’un prototype local : le profil n'a pas d'authentification, la liste des villes et services est limitée, le dataset est réduit et les systèmes administratifs réels ne sont pas connectés. Le modèle vocal n'a pas fait l'objet d'une évaluation représentative et **aucune certification d'accessibilité** n'est revendiquée. Ne déployez pas cette version telle quelle sur un serveur public.
 
-Créez au préalable le dépôt vide sur GitHub et remplacez `VOTRE-IDENTIFIANT`. N'ajoutez pas de données utilisateur réelles, de fichiers `.env` ou d'audios personnels au dépôt.
+La base locale SQLite, les enregistrements éventuels, les journaux et l'environnement `.venv` ne doivent pas être publiés sur GitHub. Le fichier `.gitignore` écarte ces fichiers locaux ; vérifiez également les contenus avant chaque publication.
 
-## Référence et contributions
+## Contributions
 
-Projet basé sur le document fourni « Cahier des charges AccessiVoice », sections 1 à 19. Les technologies proposées par ce document sont indicatives et non imposées. Renseigner les contributions effectives avant remise (ne pas attribuer des tâches non réalisées) ; voir `docs/CONTRIBUTIONS.md`.
-
-## V4 — Réponse orale et accessibilité
-
-La V4 ajoute un lecteur de réponse en français via la synthèse vocale du navigateur (API Web Speech, sans nouvelle dépendance Python). Après une requête texte ou microphone, cliquer sur **🔊 Lire la réponse** pour l'entendre, puis sur **■ Arrêter** si nécessaire. Le lecteur apparaît aussi après une modification du profil fictif ou l'enregistrement d'une demande fictive.
-
-Ouvrir **⚙️ Options d’accessibilité** pour agrandir la typographie et les boutons, augmenter le contraste ou régler la vitesse de lecture. La lecture démarre après un clic, car la lecture automatique n'est pas toujours autorisée. Elle nécessite un navigateur compatible et une voix du système (de préférence en français). Voir `AMELIORATIONS_V4.md`.
+La répartition réelle des contributions à compléter pour la remise figure dans `docs/CONTRIBUTIONS.md`. Consultez aussi `docs/DEMONSTRATION.md` pour préparer la démonstration.
